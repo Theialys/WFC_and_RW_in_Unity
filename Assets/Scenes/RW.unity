@@ -203,7 +203,6 @@ MonoBehaviour:
   proxy: {fileID: 21300000, guid: 79b3780627b06d34a9ba253d8bb8806a, type: 3}
   upperbound: 6
   segments: 3
-  gridsteps: 2
   bounds: []
 --- !u!4 &352639240
 Transform:
