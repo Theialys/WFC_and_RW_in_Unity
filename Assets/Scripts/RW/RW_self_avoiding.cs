@@ -14,11 +14,11 @@ public class RW_self_avoiding : MonoBehaviour
     private List<Vector2> dirs = new List<Vector2>()
         {new Vector2(0, 1), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, 0)};
 
-    public void Start()
+ /*   public void Start()
     {
         setupGrid();
         randomWalk(steps, tiles[0, 0], 0, 0);
-    }
+    }*/
 
 
     /// <summary>
@@ -53,7 +53,7 @@ public class RW_self_avoiding : MonoBehaviour
         if (steps == 0) return true;
         if (!starter.GetComponent<SpriteRenderer>())
         {
-            print("went in");
+         //   print("went in");
             starter.AddComponent<SpriteRenderer>();
             paint_tile(starter);
             --steps;

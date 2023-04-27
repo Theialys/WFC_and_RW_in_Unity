@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,14 +7,17 @@ public class RW_rooms : MonoBehaviour
     public Sprite proxy;
     public int upperbound;
     public int segments;
+    public int roomCollumns, roomRows;
     public List<Vector4> bounds = new List<Vector4>();
+    public List<RW_Parents> parents;
+    public int steps;
 
     private void Awake()
     {
         SetBounds(new Vector2(0, 0), upperbound, segments);
         foreach (var a in bounds)
         {
-            DrawImage(a);
+            Setup_parent(a);
         }
     }
 
@@ -42,42 +44,34 @@ public class RW_rooms : MonoBehaviour
         }
     }
 
-    public void DrawImage(Vector4 vec)
+    public void Setup_parent(Vector4 vec)
     {
         GameObject o = new GameObject();
-        var h = vec.z - vec.x;
-        var i = vec.w - vec.y;
-        var a = vec.x + 0.5 * h;
-        var b = vec.y + 0.5 * i;
-        //print("x: " + a + "y: " + b);
-        var j = new Vector3((float) a, (float) b, 0);
-        o.transform.position = j;
-        var g = o.AddComponent<SpriteRenderer>();
-        g.sprite = proxy;
+        var data = GetBoundData(vec);
+        float width = data.Item1;
+        float height = data.Item2;
+        Vector3 pos = data.Item3;
+        o.transform.position = pos;
+        RW_Parents parentScript = o.AddComponent<RW_Parents>();
+        parentScript.FillScript(width, height, pos,roomCollumns,roomRows);
+        parentScript.SetupGrid();
+        parentScript.rw.tiles = parentScript.tiles;
+        parentScript.rw.defaultSprite = proxy;
+        parentScript.rw.collumns = roomCollumns;
+        parentScript.rw.rows = roomRows;
+        
+        parentScript.rw.randomWalk(steps, o.GetComponent<RW_Parents>().tiles[0,0], 0, 0);
     }
 
-    public Vector3 GetCentre(Vector4 vec)
+    public Tuple<float, float, Vector3> GetBoundData(Vector4 vec)
     {
         float xDistance = vec.z - vec.x;
         float yDistance = vec.w - vec.y;
         float x = (float) (vec.x + 0.5 * xDistance);
         float y = (float) (vec.y + 0.5 * yDistance);
-        return new Vector3(x, y, 0);
+        return new Tuple<float, float, Vector3>(xDistance, yDistance, new Vector3(x, y, 0));
     }
-
-    /*public void setupGrid()
-    {
-        tiles = new GameObject[collumns, rows];
-        for (int i = 0; i < collumns; ++i)
-        {
-            for (int j = 0; j < rows; ++j)
-            {
-                tiles[i, j] = new GameObject();
-                //  print("entry created at: " + j + " " + i);
-                instantiate_images(tiles[i, j], i, j);
-            }
-        }
-    }*/
+    
 
     public void instantiate_images(GameObject empty, int x, int y)
     {
