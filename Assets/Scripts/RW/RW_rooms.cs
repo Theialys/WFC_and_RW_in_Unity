@@ -11,6 +11,7 @@ public class RW_rooms : MonoBehaviour
     public List<Vector4> bounds = new List<Vector4>();
     public List<RW_Parents> parents;
     public int steps;
+    public GameObject prefab;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class RW_rooms : MonoBehaviour
         {
             Setup_parent(a);
         }
+        //Setup_parent(bounds[0]);
     }
 
     /// <summary>
@@ -53,14 +55,19 @@ public class RW_rooms : MonoBehaviour
         Vector3 pos = data.Item3;
         o.transform.position = pos;
         RW_Parents parentScript = o.AddComponent<RW_Parents>();
-        parentScript.FillScript(width, height, pos,roomCollumns,roomRows);
+        parents.Add(parentScript);
+        parentScript.prefab = prefab;
+        parentScript.FillScript(width, height, pos, roomCollumns, roomRows);
         parentScript.SetupGrid();
+
+
         parentScript.rw.tiles = parentScript.tiles;
+
         parentScript.rw.defaultSprite = proxy;
         parentScript.rw.collumns = roomCollumns;
         parentScript.rw.rows = roomRows;
-        
-        parentScript.rw.randomWalk(steps, o.GetComponent<RW_Parents>().tiles[0,0], 0, 0);
+
+        parentScript.rw.randWak2l(steps, 0, 0);
     }
 
     public Tuple<float, float, Vector3> GetBoundData(Vector4 vec)
@@ -71,7 +78,7 @@ public class RW_rooms : MonoBehaviour
         float y = (float) (vec.y + 0.5 * yDistance);
         return new Tuple<float, float, Vector3>(xDistance, yDistance, new Vector3(x, y, 0));
     }
-    
+
 
     public void instantiate_images(GameObject empty, int x, int y)
     {
