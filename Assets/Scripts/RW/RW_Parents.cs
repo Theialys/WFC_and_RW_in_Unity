@@ -12,7 +12,7 @@ public class RW_Parents : MonoBehaviour
     public int collumns, rows;
     public RW_self_avoiding rw;
     public GameObject prefab;
-
+    public RW_Parents[] neigbours;
     public void FillScript(float w, float h, Vector3 pos, int coll, int row)
     {
         height = h;

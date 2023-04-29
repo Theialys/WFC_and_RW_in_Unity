@@ -206,7 +206,7 @@ MonoBehaviour:
   roomRows: 50
   bounds: []
   parents: []
-  steps: 2000
+  steps: 2500
   prefab: {fileID: 6903100531175541924, guid: d55ea86a46b88504c81254da934db764, type: 3}
 --- !u!4 &352639240
 Transform:

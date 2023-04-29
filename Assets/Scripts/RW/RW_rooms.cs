@@ -12,7 +12,7 @@ public class RW_rooms : MonoBehaviour
     public List<RW_Parents> parents;
     public int steps;
     public GameObject prefab;
-
+    
     private void Awake()
     {
         SetBounds(new Vector2(0, 0), upperbound, segments);
